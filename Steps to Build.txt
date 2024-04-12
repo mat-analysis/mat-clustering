@@ -1,0 +1,44 @@
+# ---------------------------------
+# For updating the PyPi package
+# ---------------------------------
+# Upgrade versions:
+python3 -m pip install --upgrade build
+python3 -m pip install --upgrade twine
+
+# Build the package version:
+python3 -m build
+
+# 1st upload to the test PyPi:
+python3 -m twine upload --repository testpypi dist/* 
+
+# Install from the test PyPi:
+python3 -m pip install --index-url https://test.pypi.org/simple/ --no-deps matsummarization
+
+
+# 2nd upload to the PyPi:
+python3 -m twine upload dist/* 
+
+# ---------------------------------
+# For Building an Image in a docker
+# ---------------------------------
+# Build Setup
+python setup.py sdist bdist_wheel
+
+# Upload to PyPi
+python -m twine upload dist/* --skip-existing
+
+# Docker image build:
+sudo docker build -t matsummarization .
+
+# Run Container:
+sudo docker run -p 8050:8050 web-summarization
+
+# ---------------------------------
+# For making the docs
+# ---------------------------------
+python3 -m pip install -U sphinx
+
+cd docs
+sphinx-quickstart
+
+make html
