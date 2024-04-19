@@ -19,6 +19,8 @@ VERSION = config['project']['version']
 PACKAGE_NAME = config['project']['name']
 DEV_VERSION = "0.1b0"
 
+VERSION = VERSION.replace('"', '')
+
 with open("README.md", "r") as fh:
     long_description = fh.read()
     

@@ -1,0 +1,15 @@
+CHANGELOG.md
+LICENSE
+MANIFEST.in
+README.md
+Steps to Build.txt
+pyproject.toml
+setup.py
+mat_clustering.egg-info/PKG-INFO
+mat_clustering.egg-info/SOURCES.txt
+mat_clustering.egg-info/dependency_links.txt
+mat_clustering.egg-info/requires.txt
+mat_clustering.egg-info/top_level.txt
+matclustering/LICENSE
+matclustering/README.md
+matclustering/__init__.py
