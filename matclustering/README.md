@@ -1,8 +1,9 @@
+# *** UNDER DEVELOPMENT ***
+
 # MAT-clustering: Summarization Methods for Multiple Aspect Trajectory Data Mining \[MAT-Tools Framework\]
 ---
 
 \[[Publication](#)\] \[[citation.bib](citation.bib)\] \[[GitHub](https://github.com/mat-analysis/mat-matclustering)\] \[[PyPi](https://pypi.org/project/mat-matclustering/)\]
-
 
 The present application offers a tool, to support the user in the data mining task of multiple aspect trajectories, specifically for clustering its complex data. It integrates into a unique platform the fragmented approaches available for multiple aspects trajectories and in general for multidimensional sequence classification into a unique web-based and python library system. 
 

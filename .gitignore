@@ -1,0 +1,4 @@
+
+*.pyc
+*-checkpoint.py
+*.DS_Store
