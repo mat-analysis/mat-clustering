@@ -18,19 +18,6 @@ class SimilarityClustering(HSTrajectoryClustering): # Trajectory KMeans
         
         super().__init__(name=name, random_state=random_state, n_jobs=n_jobs, verbose=verbose)
         
-#    def default_metric(self, dataset_descriptor):
-#        # Default similarity metric is MUITAS:
-#        muitas = MUITAS(dataset_descriptor)
-#
-#        # Default Config:
-#        for feat in dataset_descriptor.attributes:
-#            muitas.add_feature([feat], 1)
-#        
-#        def dist_func(t1, t2):
-#            return 1-muitas.similarity(t1, t2)
-#
-#        return dist_func
-
     def default_metric(self, dataset_descriptor):
         # Default similarity metric is MUITAS:
         muitas = MUITAS(dataset_descriptor)
