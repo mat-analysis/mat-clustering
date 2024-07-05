@@ -40,7 +40,13 @@ class TrajectoryClustering(ABC):
         self.config.update(kwargs)
     
     def grid_search(self, *args):
-        self.grid = list(itertools.product(*args))
+        params = []
+        for arg in args:
+            if not isinstance(arg, list):
+                arg = [arg]
+            params.append(arg)
+        
+        self.grid = list(itertools.product(*params))
     
     def duration(self):
         return (datetime.now()-self.start_time).total_seconds() * 1000

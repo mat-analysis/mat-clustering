@@ -41,10 +41,7 @@ class TSKMedoids(SimilarityClustering):
                         max_iter=max_iter,
                         n_jobs=n_jobs)
         
-        if isinstance(k, list):
-            self.grid_search(k, init, max_iter) # list of k values transform in a 2D configs
-        else:
-            self.grid = [[k, init, max_iter]] # just one config
+        self.grid_search(k, init, max_iter)
         
     def create(self, config=None):
         pass
