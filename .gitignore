@@ -2,3 +2,13 @@
 *.pyc
 *-checkpoint.py
 *.DS_Store
+matclustering/.DS_Store
+.ipynb_checkpoints/MAT-clustering-Tutorial-checkpoint.ipynb
+.ipynb_checkpoints/CHANGELOG-checkpoint.md
+.DS_Store
+.ipynb_checkpoints/pyproject-checkpoint.toml
+.ipynb_checkpoints/README-checkpoint.md
+.ipynb_checkpoints/setup-checkpoint.py
+.ipynb_checkpoints/Steps to Build-checkpoint.txt
+docs/build/doctrees/.ipynb_checkpoints/index-checkpoint.doctree
+matclustering/.DS_Store

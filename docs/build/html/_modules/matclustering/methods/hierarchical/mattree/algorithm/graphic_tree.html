@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>matclustering.methods.hierarchical.mattree.algorithm.graphic_tree &mdash; mat-clustering 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../../../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../../../../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../../../index.html" class="icon icon-home">
+            mat-clustering
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Modules in MAT-clustering:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../matclustering.core.html">Core Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../matclustering.methods.similarity.html">Similarity-based</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../matclustering.methods.coclustering.html">CoClustering (Under Development)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../matclustering.methods.hierarchical.html">Hierarchical (Under Development)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Framework Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://mat-analysis.github.io/mat-tools/">MAT-Tools</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../index.html">mat-clustering</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">matclustering.methods.hierarchical.mattree.algorithm.graphic_tree</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for matclustering.methods.hierarchical.mattree.algorithm.graphic_tree</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">MAT-Tools: Python Framework for Multiple Aspect Trajectory Data Mining</span>
+
+<span class="sd">The present application offers a tool, to support the user in the clustering of multiple aspect trajectory data.It integrates into a unique framework for multiple aspects trajectories and in general for multidimensional sequence data mining methods.</span>
+<span class="sd">Copyright (C) 2022, MIT license (this portion of code is subject to licensing from source project distribution)</span>
+
+<span class="sd">Created on Apr, 2024</span>
+<span class="sd">Copyright (C) 2024, License GPL Version 3 or superior (see LICENSE file)</span>
+
+<span class="sd">Authors:</span>
+<span class="sd">    - Tarlis Portela</span>
+<span class="sd">    - Yuri Santos</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="kn">from</span> <span class="nn">IPython.core.display</span> <span class="kn">import</span> <span class="n">display_png</span>
+<span class="kn">from</span> <span class="nn">graphviz</span> <span class="kn">import</span> <span class="n">Digraph</span>
+
+
+<div class="viewcode-block" id="graphic_tree">
+<a class="viewcode-back" href="../../../../../../matclustering.methods.hierarchical.mattree.algorithm.html#matclustering.methods.hierarchical.mattree.algorithm.graphic_tree.graphic_tree">[docs]</a>
+<span class="k">def</span> <span class="nf">graphic_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graphTree</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">      Shows info about each cluster node in the tree generated by Digraph</span>
+<span class="sd">      plot.</span>
+
+<span class="sd">      Parameters</span>
+<span class="sd">      ----------</span>
+<span class="sd">      graphTree : Digraph</span>
+<span class="sd">        A base class for directed graphs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">threshold</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">thresholdVal</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">thresholdVal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">thresholdVal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">thresholdLeft</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">thresholdVal</span><span class="p">)</span>
+        <span class="n">thresholdRight</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">thresholdVal</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">thresholdVal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">thresholdVal</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">thresholdLeft</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">thresholdVal</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">thresholdVal</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">thresholdVal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">thresholdRight</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">thresholdVal</span><span class="p">)</span>
+
+    <span class="n">tres_</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Mean_tres[&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">split</span> <span class="o">==</span> <span class="s1">&#39;binary&#39;</span><span class="p">:</span>
+        <span class="n">left</span> <span class="o">=</span> <span class="s1">&#39;NO&#39;</span>
+        <span class="n">right</span> <span class="o">=</span> <span class="s1">&#39;YES&#39;</span>
+        <span class="n">thres</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">left</span> <span class="o">=</span> <span class="s1">&#39;less than the average&#39;</span>
+        <span class="n">right</span> <span class="o">=</span> <span class="s1">&#39;greater than the average&#39;</span>
+        <span class="n">thres</span> <span class="o">=</span> <span class="n">tres_</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">done</span> <span class="o">==</span> <span class="s1">&#39;No&#39;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">done</span> <span class="o">==</span> <span class="s1">&#39;No&#39;</span><span class="p">:</span>
+        <span class="n">graphTree</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">parentName</span> <span class="o">+</span> <span class="n">tres_</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span><span class="p">,</span>
+                       <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">leftChildName</span> <span class="o">+</span> <span class="n">tres_</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">thresholdLeft</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span><span class="p">,</span>
+                       <span class="n">left</span><span class="p">)</span>
+        <span class="n">graphTree</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">parentName</span> <span class="o">+</span> <span class="n">tres_</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span><span class="p">,</span>
+                       <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">rightChildName</span> <span class="o">+</span> <span class="n">tres_</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">thresholdRight</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span><span class="p">,</span>
+                       <span class="n">right</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">done</span> <span class="o">==</span> <span class="s1">&#39;No&#39;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">done</span> <span class="o">==</span> <span class="s1">&#39;Yes&#39;</span><span class="p">:</span>
+        <span class="n">graphTree</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">parentName</span> <span class="o">+</span> <span class="n">tres_</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span><span class="p">,</span>
+                       <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">leftChildName</span> <span class="o">+</span> <span class="n">tres_</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">thresholdLeft</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span><span class="p">,</span>
+                       <span class="n">left</span><span class="p">)</span>
+        <span class="n">graphTree</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">parentName</span> <span class="o">+</span> <span class="n">tres_</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span><span class="p">,</span>
+                       <span class="c1"># str(self.right.id)+&quot;\n&quot;+self.rightChildName+&quot;\n[&quot;+self.division[&#39;value&#39;]+&quot;]&quot;,right)</span>
+                       <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">rightChildName</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">done</span> <span class="o">==</span> <span class="s1">&#39;Yes&#39;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">done</span> <span class="o">==</span> <span class="s1">&#39;No&#39;</span><span class="p">:</span>
+        <span class="n">graphTree</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">parentName</span> <span class="o">+</span> <span class="n">tres_</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span><span class="p">,</span>
+                       <span class="c1"># str(self.left.id)+&quot;\n&quot;+self.leftChildName+&quot;\n[&quot;+self.division[&#39;value&#39;]+&quot;]&quot;,left)</span>
+                       <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">leftChildName</span><span class="p">,</span> <span class="n">left</span><span class="p">)</span>
+        <span class="n">graphTree</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">parentName</span> <span class="o">+</span> <span class="n">tres_</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span><span class="p">,</span>
+                       <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">rightChildName</span> <span class="o">+</span> <span class="n">tres_</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">thresholdRight</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span><span class="p">,</span>
+                       <span class="n">right</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">graphTree</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">parentName</span> <span class="o">+</span> <span class="n">tres_</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span><span class="p">,</span>
+                       <span class="c1"># str(self.left.id)+&quot;\n&quot;+self.leftChildName+&quot;\n[&quot;+self.division[&#39;value&#39;]+&quot;]&quot;,left)</span>
+                       <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">leftChildName</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">U.T.&quot;</span><span class="p">,</span> <span class="n">left</span><span class="p">)</span>
+        <span class="n">graphTree</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">parentName</span> <span class="o">+</span> <span class="n">tres_</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span><span class="p">,</span>
+                       <span class="c1"># str(self.right.id)+&quot;\n&quot;+self.rightChildName+&quot;\n[&quot;+self.division[&#39;value&#39;]+&quot;]&quot;,right)</span>
+                       <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">rightChildName</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">U.T.&quot;</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">done</span> <span class="o">==</span> <span class="s1">&#39;No&#39;</span><span class="p">:</span>
+        <span class="n">graphic_tree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="n">graphTree</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">done</span> <span class="o">==</span> <span class="s1">&#39;No&#39;</span><span class="p">:</span>
+        <span class="n">graphic_tree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="n">graphTree</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="generate_graphic_tree">
+<a class="viewcode-back" href="../../../../../../matclustering.methods.hierarchical.mattree.algorithm.html#matclustering.methods.hierarchical.mattree.algorithm.graphic_tree.generate_graphic_tree">[docs]</a>
+<span class="k">def</span> <span class="nf">generate_graphic_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dir_path</span><span class="p">):</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="s1">&#39;Clustering-Tree-</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">-%m-%Y-%H-%M-%S&quot;</span><span class="p">))</span>
+    <span class="n">graph</span> <span class="o">=</span> <span class="n">Digraph</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s1">&#39;Arvore de clusters&#39;</span><span class="p">)</span>
+    <span class="n">graph</span><span class="o">.</span><span class="n">attr</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="s2">&quot;22&quot;</span><span class="p">)</span>
+    <span class="n">graph</span><span class="o">.</span><span class="n">attr</span><span class="p">()</span>
+
+    <span class="n">graphic_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">)</span>
+    <span class="n">graph</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="s1">&#39;png&#39;</span>
+
+    <span class="n">graph</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">directory</span><span class="o">=</span><span class="n">dir_path</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">)</span>
+    <span class="n">display_png</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Tarlis Tortelli Portela and Yuri Santos.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,11 +1,17 @@
-"""K-Medoids Clustering.
-    References
-    ----------
-    `Park, H. S., & Jun, C. H. (2009). A simple and fast algorithm for
-    K-medoids clustering. Expert systems with applications, 36(2), 3336-3341.
-    <https://www.sciencedirect.com/science/article/pii/S095741740800081X>`__
-    """
+# -*- coding: utf-8 -*-
+"""
+MAT-Tools: Python Framework for Multiple Aspect Trajectory Data Mining
 
+The present application offers a tool, to support the user in the clustering of multiple aspect trajectory data.It integrates into a unique framework for multiple aspects trajectories and in general for multidimensional sequence data mining methods.
+Copyright (C) 2022, MIT license (this portion of code is subject to licensing from source project distribution)
+
+Created on Apr, 2024
+Copyright (C) 2024, License GPL Version 3 or superior (see LICENSE file)
+
+Authors:
+    - Tarlis Portela
+    - Yuri Santos
+"""
 import pandas as pd
 import numpy as np
 
@@ -17,13 +23,40 @@ from matsimilarity.methods.mat.MUITAS import *
 from matclustering.core import SimilarityClustering
 
 class TSKMedoids(SimilarityClustering):
-    """K-Medoids Clustering.
+    """
+    Trajectory K-Medoids Clustering using similarity matrix.
+
+    The `TSKMedoids` class implements the K-Medoids clustering algorithm, 
+    which is a robust alternative to K-Means, especially in the presence of noise and outliers. 
 
     References
     ----------
-    `Park, H. S., & Jun, C. H. (2009). A simple and fast algorithm for
+    Park, H. S., & Jun, C. H. (2009). A simple and fast algorithm for 
     K-medoids clustering. Expert systems with applications, 36(2), 3336-3341.
-    <https://www.sciencedirect.com/science/article/pii/S095741740800081X>`__
+    <https://www.sciencedirect.com/science/article/pii/S095741740800081X>
+
+    Parameters
+    ----------
+    k : int, optional
+        The number of clusters to form. Default is 5.
+    init : array-like or str, optional
+        Initial medoids. If None, medoids will be chosen randomly. 
+        If 'park', uses the method proposed by Park and Jun (2009). Default is None.
+    max_iter : int, optional
+        Maximum number of iterations for the algorithm to run. Default is 300.
+    random_state : int, optional
+        Seed for random number generation, ensuring reproducibility. Default is 1.
+    n_jobs : int, optional
+        The number of jobs to run in parallel for both `fit` and `predict`. Default is 1.
+    verbose : bool, optional
+        If True, enables verbose output during processing. Default is False.
+
+    Methods
+    -------
+    create(config=None):
+        Initializes and returns a K-Medoids model with the specified parameters.
+    fit(X, config=None):
+        Runs the K-Medoids clustering algorithm on the input data X.
     """
     def __init__(self,
                  k=5,

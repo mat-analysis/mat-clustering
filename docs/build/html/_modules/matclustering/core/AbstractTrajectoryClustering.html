@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>matclustering.core.AbstractTrajectoryClustering &mdash; mat-clustering 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            mat-clustering
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Modules in MAT-clustering:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../matclustering.core.html">Core Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../matclustering.methods.similarity.html">Similarity-based</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../matclustering.methods.coclustering.html">CoClustering (Under Development)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../matclustering.methods.hierarchical.html">Hierarchical (Under Development)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Framework Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://mat-analysis.github.io/mat-tools/">MAT-Tools</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">mat-clustering</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">matclustering.core.AbstractTrajectoryClustering</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for matclustering.core.AbstractTrajectoryClustering</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">MAT-Tools: Python Framework for Multiple Aspect Trajectory Data Mining</span>
+
+<span class="sd">The present application offers a tool, to support the user in the clustering of multiple aspect trajectory data.It integrates into a unique framework for multiple aspects trajectories and in general for multidimensional sequence data mining methods.</span>
+<span class="sd">Copyright (C) 2022, MIT license (this portion of code is subject to licensing from source project distribution)</span>
+
+<span class="sd">Created on Apr, 2024</span>
+<span class="sd">Copyright (C) 2024, License GPL Version 3 or superior (see LICENSE file)</span>
+
+<span class="sd">Authors:</span>
+<span class="sd">    - Tarlis Portela</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+
+<span class="kn">from</span> <span class="nn">tqdm.auto</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="o">*</span>
+
+<div class="viewcode-block" id="TrajectoryClustering">
+<a class="viewcode-back" href="../../../matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering">[docs]</a>
+<span class="k">class</span> <span class="nc">TrajectoryClustering</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstract base class for trajectory clustering algorithms.</span>
+
+<span class="sd">    This class provides a framework for clustering multiple-aspect trajectory data. </span>
+<span class="sd">    It allows the configuration of clustering parameters, performs hyperparameter </span>
+<span class="sd">    combinations for grid search optimization (see HSTrajectoryClustering class), </span>
+<span class="sd">    and evaluates clustering results using various metrics.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name : str</span>
+<span class="sd">        Name of the clustering model.</span>
+<span class="sd">    isverbose : bool</span>
+<span class="sd">        Flag indicating whether to print verbose output.</span>
+<span class="sd">    save_results : bool</span>
+<span class="sd">        Flag to indicate if results should be saved.</span>
+<span class="sd">    config : dict</span>
+<span class="sd">        Configuration dictionary to hold hyperparameters and settings.</span>
+<span class="sd">    model : object</span>
+<span class="sd">        The clustering model instance.</span>
+<span class="sd">    report : DataFrame</span>
+<span class="sd">        Report of clustering evaluation metrics.</span>
+<span class="sd">    test_report : DataFrame</span>
+<span class="sd">        Report of clustering evaluation metrics on test data.</span>
+<span class="sd">    </span>
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    add_config(**kwargs):</span>
+<span class="sd">        Updates the configuration dictionary with new parameters.</span>
+<span class="sd">    </span>
+<span class="sd">    grid_search(*args):</span>
+<span class="sd">        Generates combinations of hyperparameters for grid search.</span>
+<span class="sd">    </span>
+<span class="sd">    duration():</span>
+<span class="sd">        Returns the elapsed time since the model was initialized in milliseconds.</span>
+<span class="sd">    </span>
+<span class="sd">    clear():</span>
+<span class="sd">        Clears the current model instance.</span>
+<span class="sd">    </span>
+<span class="sd">    message(pbar, text):</span>
+<span class="sd">        Displays a message during model training/testing.</span>
+<span class="sd">    </span>
+<span class="sd">    prepare_input(X, metric=None, dataset_descriptor=None):</span>
+<span class="sd">        Prepares the input data for clustering (to be implemented by subclasses).</span>
+<span class="sd">    </span>
+<span class="sd">    create(config=None):</span>
+<span class="sd">        Creates and returns the clustering model instance (to be implemented by subclasses).</span>
+<span class="sd">    </span>
+<span class="sd">    score(y_test, y_pred, X=None):</span>
+<span class="sd">        Calculates and returns various clustering evaluation metrics as a DataFrame.</span>
+<span class="sd">    </span>
+<span class="sd">    summary():</span>
+<span class="sd">        Returns a summary of the clustering results.</span>
+<span class="sd">    </span>
+<span class="sd">    fit(X, config=None):</span>
+<span class="sd">        Fits the clustering model to the input data and returns the report and cluster labels.</span>
+<span class="sd">    </span>
+<span class="sd">    save(dir_path=&#39;.&#39;, modelfolder=&#39;model&#39;):</span>
+<span class="sd">        Saves the clustering model and its results to the specified directory.</span>
+<span class="sd">    </span>
+<span class="sd">    cluestering_report():</span>
+<span class="sd">        Generates a DataFrame of cluster predictions and labels.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">name</span><span class="o">=</span><span class="s1">&#39;NAME?&#39;</span><span class="p">,</span>
+                 
+                 <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">isverbose</span> <span class="o">=</span> <span class="n">verbose</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_results</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1"># TODO</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_config</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span>
+                        <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
+                        <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">report</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_report</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isverbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">[&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;:] Building model&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        
+<div class="viewcode-block" id="TrajectoryClustering.add_config">
+<a class="viewcode-back" href="../../../matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.add_config">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="TrajectoryClustering.grid_search">
+<a class="viewcode-back" href="../../../matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.grid_search">[docs]</a>
+    <span class="k">def</span> <span class="nf">grid_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">arg</span> <span class="o">=</span> <span class="p">[</span><span class="n">arg</span><span class="p">]</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">))</span></div>
+
+    
+<div class="viewcode-block" id="TrajectoryClustering.duration">
+<a class="viewcode-back" href="../../../matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.duration">[docs]</a>
+    <span class="k">def</span> <span class="nf">duration</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">*</span> <span class="mi">1000</span></div>
+
+    
+<div class="viewcode-block" id="TrajectoryClustering.clear">
+<a class="viewcode-back" href="../../../matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.clear">[docs]</a>
+    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span> </div>
+
+        
+<div class="viewcode-block" id="TrajectoryClustering.message">
+<a class="viewcode-back" href="../../../matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.message">[docs]</a>
+    <span class="k">def</span> <span class="nf">message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pbar</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pbar</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isverbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pbar</span><span class="o">.</span><span class="n">set_postfix_str</span><span class="p">(</span><span class="n">text</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="TrajectoryClustering.prepare_input">
+<a class="viewcode-back" href="../../../matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.prepare_input">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">prepare_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dataset_descriptor</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+    
+<div class="viewcode-block" id="TrajectoryClustering.create">
+<a class="viewcode-back" href="../../../matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.create">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+    
+<div class="viewcode-block" id="TrajectoryClustering.score">
+<a class="viewcode-back" href="../../../matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.score">[docs]</a>
+    <span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># Calculate clustering metrics        </span>
+        <span class="n">ari</span> <span class="o">=</span> <span class="n">adjusted_rand_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+        <span class="n">mi</span> <span class="o">=</span> <span class="n">mutual_info_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+        
+        <span class="n">ami</span> <span class="o">=</span> <span class="n">adjusted_mutual_info_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+        <span class="n">completeness</span> <span class="o">=</span> <span class="n">completeness_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+        <span class="n">fmi</span> <span class="o">=</span> <span class="n">fowlkes_mallows_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+        <span class="n">homogeneity</span> <span class="o">=</span> <span class="n">homogeneity_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+        <span class="n">nmi</span> <span class="o">=</span> <span class="n">normalized_mutual_info_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+        <span class="n">ri</span> <span class="o">=</span> <span class="n">rand_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+        <span class="n">v_measure</span> <span class="o">=</span> <span class="n">v_measure_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+        
+        <span class="n">dic_model</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;rand_index&#39;</span><span class="p">:</span> <span class="n">ri</span><span class="p">,</span> <span class="c1"># Rand index.</span>
+            <span class="s1">&#39;adusted_rand_index&#39;</span><span class="p">:</span> <span class="n">ari</span><span class="p">,</span> <span class="c1"># Adjusted Rand Index (ARI) </span>
+            <span class="s1">&#39;mutual_info&#39;</span><span class="p">:</span> <span class="n">mi</span><span class="p">,</span> <span class="c1"># Mutual Information (MI)</span>
+            <span class="s1">&#39;adusted_mutual_info&#39;</span><span class="p">:</span> <span class="n">ami</span><span class="p">,</span> <span class="c1"># Adjusted Mutual Information between two clusterings.</span>
+            <span class="s1">&#39;norm_mutual_info&#39;</span><span class="p">:</span> <span class="n">nmi</span><span class="p">,</span> <span class="c1"># Normalized Mutual Information between two clusterings.</span>
+            <span class="s1">&#39;fm_index&#39;</span><span class="p">:</span> <span class="n">fmi</span><span class="p">,</span> <span class="c1"># The Fowlkes-Mallows index (FMI)</span>
+            <span class="s1">&#39;v_measure&#39;</span><span class="p">:</span> <span class="n">v_measure</span><span class="p">,</span> <span class="c1"># V-measure cluster labeling given a ground truth.</span>
+            
+            <span class="c1"># Attention as this metrics need y_test and y_pred as ground truth</span>
+            <span class="s1">&#39;completeness&#39;</span><span class="p">:</span> <span class="n">completeness</span><span class="p">,</span> <span class="c1"># Compute completeness metric of a cluster labeling given a ground truth.</span>
+            <span class="s1">&#39;homogeneity&#39;</span><span class="p">:</span> <span class="n">homogeneity</span><span class="p">,</span> <span class="c1"># Homogeneity metric of a cluster labeling given a ground truth.</span>
+        <span class="p">}</span> 
+        
+        <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">silhouette</span> <span class="o">=</span> <span class="n">silhouette_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span> 
+            <span class="n">db_index</span> <span class="o">=</span> <span class="n">davies_bouldin_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+            <span class="n">ch_index</span> <span class="o">=</span> <span class="n">calinski_harabasz_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+            
+            <span class="n">dic_model</span><span class="o">.</span><span class="n">update</span><span class="p">(</span> <span class="p">{</span>
+                <span class="s1">&#39;silhouette&#39;</span><span class="p">:</span> <span class="n">silhouette</span><span class="p">,</span> <span class="c1"># Silhouette Score</span>
+                <span class="s1">&#39;db_index&#39;</span><span class="p">:</span> <span class="n">db_index</span><span class="p">,</span> <span class="c1"># Davies-Bouldin Index</span>
+                <span class="s1">&#39;ch_index&#39;</span><span class="p">:</span> <span class="n">ch_index</span><span class="p">,</span> <span class="c1"># Calinski-Harabasz Index (Variance Ratio Criterion)</span>
+            <span class="p">}</span> <span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dic_model</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span></div>
+
+    
+<div class="viewcode-block" id="TrajectoryClustering.summary">
+<a class="viewcode-back" href="../../../matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.summary">[docs]</a>
+    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_report</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">test_report</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_report</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span><span class="o">.</span><span class="n">T</span></div>
+
+    
+<div class="viewcode-block" id="TrajectoryClustering.fit">
+<a class="viewcode-back" href="../../../matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.fit">[docs]</a>
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">_report</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">labels_</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">clusters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">labels_</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_report</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">clusters</span></div>
+
+    
+<div class="viewcode-block" id="TrajectoryClustering.save">
+<a class="viewcode-back" href="../../../matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.save">[docs]</a>
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dir_path</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">modelfolder</span><span class="o">=</span><span class="s1">&#39;model&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dir_path</span><span class="p">,</span> <span class="n">modelfolder</span><span class="p">)):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dir_path</span><span class="p">,</span> <span class="n">modelfolder</span><span class="p">))</span>
+
+        <span class="n">report</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cluestering_report</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">report</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">report</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dir_path</span><span class="p">,</span> <span class="n">modelfolder</span><span class="p">,</span> <span class="s1">&#39;model_&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">+</span><span class="s1">&#39;_report.csv&#39;</span><span class="p">),</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TrajectoryClustering.cluestering_report">
+<a class="viewcode-back" href="../../../matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.cluestering_report">[docs]</a>
+    <span class="k">def</span> <span class="nf">cluestering_report</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">clusters</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cluster&#39;</span><span class="p">])</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s1">&#39;prediction&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+</div>
+
+
+<div class="viewcode-block" id="HSTrajectoryClustering">
+<a class="viewcode-back" href="../../../matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.HSTrajectoryClustering">[docs]</a>
+<span class="k">class</span> <span class="nc">HSTrajectoryClustering</span><span class="p">(</span><span class="n">TrajectoryClustering</span><span class="p">):</span> <span class="c1"># Hyperparam search model</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class for hyperparameter search in multiple-aspect trajectory clustering algorithms.</span>
+
+<span class="sd">    This class extends the TrajectoryClustering class to include hyperparameter </span>
+<span class="sd">    optimization (tuning through grid search) and model validation. It implements methods for training, testing, </span>
+<span class="sd">    and saving models, along with detailed reporting of the results.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    best_config : list</span>
+<span class="sd">        The best hyperparameter configuration found during training.</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    prepare_input(X):</span>
+<span class="sd">        Prepares the input data for training (to be implemented by subclasses).</span>
+<span class="sd">    </span>
+<span class="sd">    if_config(config=None):</span>
+<span class="sd">        Returns the current configuration or default configuration.</span>
+<span class="sd">    </span>
+<span class="sd">    train(dir_validation=&#39;.&#39;):</span>
+<span class="sd">        Trains the model using grid search over hyperparameters and returns the training report.</span>
+<span class="sd">    </span>
+<span class="sd">    test(rounds=1, dir_evaluation=&#39;.&#39;):</span>
+<span class="sd">        Tests the best model on the dataset and returns evaluation metrics.</span>
+<span class="sd">    </span>
+<span class="sd">    save(dir_path=&#39;.&#39;, modelfolder=&#39;model&#39;):</span>
+<span class="sd">        Saves the model and its training/testing results to the specified directory.</span>
+<span class="sd">    </span>
+<span class="sd">    training_report():</span>
+<span class="sd">        Returns the training report DataFrame.</span>
+<span class="sd">    </span>
+<span class="sd">    testing_report():</span>
+<span class="sd">        Returns the testing report DataFrame.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">name</span><span class="o">=</span><span class="s1">&#39;NAME?&#39;</span><span class="p">,</span>
+                 
+                 <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_config</span> <span class="o">=</span> <span class="kc">None</span>
+        
+<div class="viewcode-block" id="HSTrajectoryClustering.prepare_input">
+<a class="viewcode-back" href="../../../matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.HSTrajectoryClustering.prepare_input">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">prepare_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+    
+    <span class="c1"># Override this method</span>
+<div class="viewcode-block" id="HSTrajectoryClustering.if_config">
+<a class="viewcode-back" href="../../../matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.HSTrajectoryClustering.if_config">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">if_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">config</span></div>
+
+    
+<div class="viewcode-block" id="HSTrajectoryClustering.train">
+<a class="viewcode-back" href="../../../matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.HSTrajectoryClustering.train">[docs]</a>
+    <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dir_validation</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">):</span>
+        
+        <span class="c1"># This implementation, trains only one model </span>
+        <span class="c1"># (but, you may overwrite the method following this method)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        
+        <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span>       
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isverbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;:] Training model&#39;</span><span class="p">)</span>
+        
+        <span class="c1"># Hiper-param data:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_config</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">[]]</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isverbose</span><span class="p">:</span>
+            <span class="n">pbar</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;[&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;:] Model Training&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pbar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span>
+        
+        <span class="k">for</span> <span class="n">config</span> <span class="ow">in</span> <span class="n">pbar</span><span class="p">:</span>
+            
+            <span class="c1"># concat config:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">config</span><span class="p">])</span>
+            <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dir_validation</span><span class="p">,</span> <span class="s1">&#39;val_&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">+</span><span class="s1">&#39;-&#39;</span><span class="o">+</span><span class="n">params</span><span class="o">+</span><span class="s1">&#39;.csv&#39;</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">pbar</span><span class="p">,</span> <span class="s1">&#39;Skip ---&gt; </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">read_report</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+                
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">pbar</span><span class="p">,</span> <span class="s1">&#39;Trainning Config - &#39;</span><span class="o">+</span><span class="n">params</span><span class="p">)</span>
+                
+                <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+                
+                <span class="n">validation_report</span><span class="p">,</span> <span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_results</span><span class="p">:</span>
+                    <span class="n">validation_report</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+                <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="p">(</span><span class="n">att</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">([</span><span class="s1">&#39;p&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">config</span><span class="p">))],</span> <span class="n">config</span><span class="p">)):</span>
+                    <span class="n">validation_report</span><span class="p">[</span><span class="n">att</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">val</span><span class="p">]</span>
+
+                <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">validation_report</span> <span class="p">)</span>
+                
+            <span class="c1"># Choose the best model based on higher acc:</span>
+            <span class="n">ari</span> <span class="o">=</span> <span class="n">validation_report</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;adusted_rand_index&#39;</span><span class="p">]</span><span class="c1">#[&#39;acc&#39;]</span>
+            <span class="k">if</span> <span class="n">ari</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_config</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">best_config</span> <span class="o">=</span> <span class="p">[</span><span class="n">ari</span><span class="p">,</span> <span class="n">config</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">best_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span>
+            
+            <span class="c1"># TODO Save model results ??</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="c1"># -------------------------------------------&gt;</span>
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_config</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">report</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1">#        self.report.sort_values(&#39;acc&#39;, ascending=False, inplace=True)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;adusted_rand_index&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_model</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">report</span></div>
+
+    
+<div class="viewcode-block" id="HSTrajectoryClustering.test">
+<a class="viewcode-back" href="../../../matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.HSTrajectoryClustering.test">[docs]</a>
+    <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+             <span class="n">rounds</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+             <span class="n">dir_evaluation</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">):</span>
+        
+        <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span>
+        
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dir_evaluation</span><span class="p">,</span> <span class="s1">&#39;eval_&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">+</span><span class="s1">&#39;.csv&#39;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isverbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;:] Model previoulsy built.&#39;</span><span class="p">)</span>
+            <span class="c1"># TODO read</span>
+            <span class="c1">#return self.read_report(filename, prefix=&#39;eval_&#39;)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isverbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;:] Creating a model to test set&#39;</span><span class="p">)</span>
+            
+                <span class="n">pbar</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">rounds</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Model Testing&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">pbar</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">rounds</span><span class="p">))</span>
+                
+            <span class="n">random_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;random_state&#39;</span><span class="p">]</span>
+            
+            <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">if_config</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">best_config</span><span class="p">)</span>
+            
+            <span class="n">evaluate_report</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">pbar</span><span class="p">:</span>
+                <span class="n">re</span> <span class="o">=</span> <span class="p">(</span><span class="n">random_state</span><span class="o">+</span><span class="n">e</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;random_state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">re</span>
+                
+                <span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">pbar</span><span class="p">,</span> <span class="s1">&#39;Round </span><span class="si">{}</span><span class="s1"> of </span><span class="si">{}</span><span class="s1"> (random </span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">rounds</span><span class="p">,</span> <span class="n">re</span><span class="p">))</span>
+                
+                <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+                
+                <span class="n">eval_report</span><span class="p">,</span> <span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+                
+                <span class="n">eval_report</span><span class="p">[</span><span class="s1">&#39;random_state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">re</span>
+                <span class="n">eval_report</span><span class="p">[</span><span class="s1">&#39;runtime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration</span><span class="p">()</span>
+                
+                <span class="n">evaluate_report</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">eval_report</span><span class="p">)</span>
+                        
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;random_state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">random_state</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">test_report</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">evaluate_report</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">test_report</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isverbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;:] Processing time: </span><span class="si">{}</span><span class="s1"> milliseconds. Done.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">duration</span><span class="p">()))</span>
+
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_report</span><span class="p">,</span> <span class="n">y_pred</span></div>
+
+        
+<div class="viewcode-block" id="HSTrajectoryClustering.save">
+<a class="viewcode-back" href="../../../matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.HSTrajectoryClustering.save">[docs]</a>
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dir_path</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">modelfolder</span><span class="o">=</span><span class="s1">&#39;model&#39;</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">dir_path</span><span class="p">,</span> <span class="n">modelfolder</span><span class="p">)</span>
+            
+        <span class="n">train_report</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">training_report</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">train_report</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">train_report</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dir_path</span><span class="p">,</span> <span class="n">modelfolder</span><span class="p">,</span> <span class="s1">&#39;model_&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">+</span><span class="s1">&#39;_history.csv&#39;</span><span class="p">))</span>
+            
+        <span class="n">test_report</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">testing_report</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">test_report</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">test_report</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dir_path</span><span class="p">,</span> <span class="n">modelfolder</span><span class="p">,</span> <span class="s1">&#39;model_&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">+</span><span class="s1">&#39;_summary.csv&#39;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="HSTrajectoryClustering.training_report">
+<a class="viewcode-back" href="../../../matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.HSTrajectoryClustering.training_report">[docs]</a>
+    <span class="k">def</span> <span class="nf">training_report</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">report</span></div>
+
+<div class="viewcode-block" id="HSTrajectoryClustering.testing_report">
+<a class="viewcode-back" href="../../../matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.HSTrajectoryClustering.testing_report">[docs]</a>
+    <span class="k">def</span> <span class="nf">testing_report</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_report</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Tarlis Tortelli Portela and Yuri Santos.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

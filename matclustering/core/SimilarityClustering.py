@@ -1,3 +1,16 @@
+# -*- coding: utf-8 -*-
+"""
+MAT-Tools: Python Framework for Multiple Aspect Trajectory Data Mining
+
+The present application offers a tool, to support the user in the clustering of multiple aspect trajectory data.It integrates into a unique framework for multiple aspects trajectories and in general for multidimensional sequence data mining methods.
+Copyright (C) 2022, MIT license (this portion of code is subject to licensing from source project distribution)
+
+Created on Apr, 2024
+Copyright (C) 2024, License GPL Version 3 or superior (see LICENSE file)
+
+Authors:
+    - Tarlis Portela
+"""
 import pandas as pd
 import numpy as np
 
@@ -8,7 +21,35 @@ from matsimilarity.core.utils import similarity_matrix
 
 from matclustering.core import HSTrajectoryClustering
 
-class SimilarityClustering(HSTrajectoryClustering): # Trajectory KMeans
+class SimilarityClustering(HSTrajectoryClustering):
+    """
+    Similarity-based clustering for multiple-aspect trajectory data.
+
+    This class extends the HSTrajectoryClustering class to provide clustering 
+    functionality based on similarity metrics for trajectory data. It includes 
+    methods to prepare input data and compute similarity matrices using various 
+    metrics.
+
+    Attributes
+    ----------
+    name : str
+        Name of the clustering model.
+    metric : object
+        Similarity metric used for clustering.
+    X : array-like
+        Similarity matrix of the input trajectories.
+    labels : list
+        List of labels associated with each trajectory in the input data.
+
+    Methods
+    -------
+    default_metric(dataset_descriptor):
+        Initializes and returns the default similarity metric (MUITAS) for the dataset.
+    
+    prepare_input(X, metric=None, dataset_descriptor=None):
+        Prepares the input data by converting it to trajectories and calculating 
+        the similarity matrix.
+    """
     def __init__(self,
                  name,
                  

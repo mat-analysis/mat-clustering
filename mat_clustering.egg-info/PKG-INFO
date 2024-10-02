@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: mat-clustering
-Version: 0.1b0
+Version: 0.1rc1
 Summary: Clustering Methods for Multiple Aspect Trajectory Data Mining
 Home-page: https://github.com/mat-analysis/mat-clustering
 Author: Yuri Nassar
@@ -9,7 +9,7 @@ Maintainer-email: Tarlis Tortelli Portela <tarlis@tarlis.com.br>, Yuri Santos <y
 License: GPL Version 3 or superior (see LICENSE file)
 Project-URL: Homepage, https://github.com/mat-analysis/mat-clustering
 Project-URL: Repository, https://github.com/mat-analysis/mat-clustering
-Project-URL: Documentation, https://github.com/mat-analysis/mat-clustering/blob/main/README.md
+Project-URL: Documentation, https://mat-analysis.github.io/mat-tools/mat-clustering/index.html
 Project-URL: Download, https://pypi.org/project/mat-clustering/#files
 Project-URL: Bug Tracker, https://github.com/mat-analysis/mat-clustering/issues
 Keywords: data-science,machine-learning,data-mining,trajectory,multiple-trajectory,clustering
@@ -48,11 +48,10 @@ Requires-Dist: jupyter; extra == "docs"
 Requires-Dist: numpydoc; extra == "docs"
 Provides-Extra: dl
 
-# MAT-clustering: Summarization Methods for Multiple Aspect Trajectory Data Mining \[MAT-Tools Framework\]
+# MAT-clustering: Clustering Methods for Multiple Aspect Trajectory Data Mining \[MAT-Tools Framework\]
 ---
 
-\[[Publication](#)\] \[[citation.bib](citation.bib)\] \[[GitHub](https://github.com/mat-analysis/mat-matclustering)\] \[[PyPi](https://pypi.org/project/mat-matclustering/)\]
-
+\[[Publication](#)\] \[[Bibtex](https://github.com/mat-analysis/mat-tools/blob/main/references/mat-tools.bib)\] \[[GitHub](https://github.com/mat-analysis/mat-clustering)\] \[[PyPi](https://pypi.org/project/mat-clustering/)\]
 
 The present application offers a tool, to support the user in the data mining task of multiple aspect trajectories, specifically for clustering its complex data. It integrates into a unique platform the fragmented approaches available for multiple aspects trajectories and in general for multidimensional sequence classification into a unique web-based and python library system. 
 
@@ -61,38 +60,36 @@ Copyright (C) 2024, License GPL Version 3 or superior (see LICENSE file)
 
 ### Main Modules
 
+- Core Classes:
+    1. **TrajectoryClustering** - Base class for trajectory clustering
+    2. **HSTrajectoryClustering** - Hyperparameter search model for trajectory clustering
+    3. **SimilarityClustering** - Similarity-based clustering for trajectory data
 
+- Similarity-based clustering methods:
+    1. **TSAgglomerative** - MAT Hierarchical Agglomerative Clustering
+    2. **TSBirch** - MAT BIRCH Clustering
+    3. **TSDBSCAN** - MAT DBSCAN Clustering    
+    4. **TSKMeans** - MAT K-Means Clustering
+    5. **TSKMedoids** - MAT K-Medoids Clustering
+    6. **TSpectral** - MAT Spectral Clustering
+    
+- CoClustering clustering methods: **Under Development**
+
+- Hierarchical clustering methods: **Under Development**
 
 ### Installation
 
 Install directly from PyPi repository, or, download from github. (python >= 3.7 required)
 
 ```bash
-    pip install matclustering
+    pip install mat-clustering
 ```
 
 ### Citing
 
-If you use `matclustering` please cite the following paper:
+If you use `mat-clustering` please cite the following paper:
 
-    Tarlis Tortelli Portela; Jonata Tyska Carvalho; Vania Bogorny. HiPerMovelets: high-performance movelet extraction for trajectory classification, International Journal of Geographical Information Science, 2022. DOI: 10.1080/13658816.2021.2018593.
-
-[Bibtex](citation.bib):
-
-```bash
-@article{Portela2022,
-    author = {Tarlis Tortelli Portela and Jonata Tyska Carvalho and Vania Bogorny},
-    title = {HiPerMovelets: high-performance movelet extraction for trajectory classification},
-    journal = {International Journal of Geographical Information Science},
-    volume = {0},
-    number = {0},
-    pages = {1-25},
-    year  = {2022},
-    publisher = {Taylor & Francis},
-    doi = {10.1080/13658816.2021.2018593},
-    URL = {https://doi.org/10.1080/13658816.2021.2018593}
-}
-```
+ - Portela, T. T.; Machado, V. L.; Renso, C. Unified Approach to Trajectory Data Mining and Multi-Aspect Trajectory Analysis with MAT-Tools Framework. In: SIMPÓSIO BRASILEIRO DE BANCO DE DADOS (SBBD), 39. , 2024, Florianópolis/SC. \[[Bibtex](https://github.com/mat-analysis/mat-tools/blob/main/references/mat-tools.bib)\]
 
 ### Collaborate with us
 
@@ -106,10 +103,7 @@ This package is part of _MAT-Tools Framework_ for Multiple Aspect Trajectory Dat
 
 - **[mat-tools](https://github.com/mat-analysis/mat-tools)**: Reference guide for MAT-Tools Framework repositories
 
-And others:
-
-
 
 ### Change Log
 
-This is a package under construction, see [CHANGELOG.md](./CHANGELOG.md)
+This is a package under construction, see [CHANGELOG.md](https://github.com/mat-analysis/mat-clustering/blob/main/CHANGELOG.md)

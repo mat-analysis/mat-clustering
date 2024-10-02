@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to mat-clustering’s documentation! &mdash; mat-clustering 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=2709fde1"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="matclustering.core package" href="matclustering.core.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            mat-clustering
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Modules in MAT-clustering:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="matclustering.core.html">Core Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matclustering.methods.similarity.html">Similarity-based</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matclustering.methods.coclustering.html">CoClustering (Under Development)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matclustering.methods.hierarchical.html">Hierarchical (Under Development)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Framework Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://mat-analysis.github.io/mat-tools/">MAT-Tools</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">mat-clustering</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Welcome to mat-clustering’s documentation!</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="welcome-to-mat-clustering-s-documentation">
+<h1>Welcome to mat-clustering’s documentation!<a class="headerlink" href="#welcome-to-mat-clustering-s-documentation" title="Link to this heading"></a></h1>
+<hr class="docutils" />
+<section id="mat-clustering-clustering-methods-for-multiple-aspect-trajectory-data-mining-mat-tools-framework">
+<h2>MAT-clustering: Clustering Methods for Multiple Aspect Trajectory Data Mining [MAT-Tools Framework]<a class="headerlink" href="#mat-clustering-clustering-methods-for-multiple-aspect-trajectory-data-mining-mat-tools-framework" title="Link to this heading"></a></h2>
+<hr class="docutils" />
+<p>[<a class="reference external" href="#">Publication</a>] [<a class="reference external" href="https://github.com/mat-analysis/mat-tools/blob/main/references/mat-tools.bib">Bibtex</a>] [<a class="reference external" href="https://github.com/mat-analysis/mat-clustering">GitHub</a>] [<a class="reference external" href="https://pypi.org/project/mat-clustering/">PyPi</a>]</p>
+<p>The present application offers a tool, to support the user in the data mining task of multiple aspect trajectories, specifically for clustering its complex data. It integrates into a unique platform the fragmented approaches available for multiple aspects trajectories and in general for multidimensional sequence classification into a unique web-based and python library system.</p>
+<p>Created on Apr, 2024
+Copyright (C) 2024, License GPL Version 3 or superior (see LICENSE file)</p>
+<section id="main-modules">
+<h3>Main Modules<a class="headerlink" href="#main-modules" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Core Classes:</p>
+<ol class="arabic simple">
+<li><p><strong>TrajectoryClustering</strong> - Base class for trajectory clustering</p></li>
+<li><p><strong>HSTrajectoryClustering</strong> - Hyperparameter search model for trajectory clustering</p></li>
+<li><p><strong>SimilarityClustering</strong> - Similarity-based clustering for trajectory data</p></li>
+</ol>
+</li>
+<li><p>Similarity-based clustering methods:</p>
+<ol class="arabic simple">
+<li><p><strong>TSAgglomerative</strong> - MAT Hierarchical Agglomerative Clustering</p></li>
+<li><p><strong>TSBirch</strong> - MAT BIRCH Clustering</p></li>
+<li><p><strong>TSDBSCAN</strong> - MAT DBSCAN Clustering</p></li>
+<li><p><strong>TSKMeans</strong> - MAT K-Means Clustering</p></li>
+<li><p><strong>TSKMedoids</strong> - MAT K-Medoids Clustering</p></li>
+<li><p><strong>TSpectral</strong> - MAT Spectral Clustering</p></li>
+</ol>
+</li>
+<li><p>CoClustering clustering methods: <strong>Under Development</strong></p></li>
+<li><p>Hierarchical clustering methods: <strong>Under Development</strong></p></li>
+</ul>
+</section>
+<section id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h3>
+<p>Install directly from PyPi repository, or, download from github. (python &gt;= 3.7 required)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">    </span>pip<span class="w"> </span>install<span class="w"> </span>mat-clustering
+</pre></div>
+</div>
+</section>
+<section id="citing">
+<h3>Citing<a class="headerlink" href="#citing" title="Link to this heading"></a></h3>
+<p>If you use <code class="docutils literal notranslate"><span class="pre">mat-clustering</span></code> please cite the following paper:</p>
+<ul class="simple">
+<li><p>Portela, T. T.; Machado, V. L.; Renso, C. Unified Approach to Trajectory Data Mining and Multi-Aspect Trajectory Analysis with MAT-Tools Framework. In: SIMPÓSIO BRASILEIRO DE BANCO DE DADOS (SBBD), 39. , 2024, Florianópolis/SC. [<a class="reference external" href="https://github.com/mat-analysis/mat-tools/blob/main/references/mat-tools.bib">Bibtex</a>]</p></li>
+</ul>
+</section>
+<section id="collaborate-with-us">
+<h3>Collaborate with us<a class="headerlink" href="#collaborate-with-us" title="Link to this heading"></a></h3>
+<p>Any contribution is welcome. This is an active project and if you would like to include your algorithm in <code class="docutils literal notranslate"><span class="pre">matclustering</span></code>, feel free to fork the project, open an issue and contact us.</p>
+<p>Feel free to contribute in any form, such as scientific publications referencing <code class="docutils literal notranslate"><span class="pre">matclustering</span></code>, teaching material and workshop videos.</p>
+</section>
+<section id="related-packages">
+<h3>Related packages<a class="headerlink" href="#related-packages" title="Link to this heading"></a></h3>
+<p>This package is part of <em>MAT-Tools Framework</em> for Multiple Aspect Trajectory Data Mining, check the guide project:</p>
+<ul class="simple">
+<li><p><strong><a class="reference external" href="https://github.com/mat-analysis/mat-tools">mat-tools</a></strong>: Reference guide for MAT-Tools Framework repositories</p></li>
+</ul>
+</section>
+<section id="change-log">
+<h3>Change Log<a class="headerlink" href="#change-log" title="Link to this heading"></a></h3>
+<p>This is a package under construction, see <a class="reference external" href="https://github.com/mat-analysis/mat-clustering/blob/main/CHANGELOG.md">CHANGELOG.md</a></p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="module-matclustering">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-matclustering" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Modules in MAT-clustering:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="matclustering.core.html">Core Classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="matclustering.core.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="matclustering.core.html#module-matclustering.core.AbstractTrajectoryClustering">matclustering.core.AbstractTrajectoryClustering module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.HSTrajectoryClustering"><code class="docutils literal notranslate"><span class="pre">HSTrajectoryClustering</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.HSTrajectoryClustering.best_config"><code class="docutils literal notranslate"><span class="pre">HSTrajectoryClustering.best_config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.HSTrajectoryClustering.if_config"><code class="docutils literal notranslate"><span class="pre">HSTrajectoryClustering.if_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.HSTrajectoryClustering.prepare_input"><code class="docutils literal notranslate"><span class="pre">HSTrajectoryClustering.prepare_input()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.HSTrajectoryClustering.save"><code class="docutils literal notranslate"><span class="pre">HSTrajectoryClustering.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.HSTrajectoryClustering.test"><code class="docutils literal notranslate"><span class="pre">HSTrajectoryClustering.test()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.HSTrajectoryClustering.testing_report"><code class="docutils literal notranslate"><span class="pre">HSTrajectoryClustering.testing_report()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.HSTrajectoryClustering.train"><code class="docutils literal notranslate"><span class="pre">HSTrajectoryClustering.train()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.HSTrajectoryClustering.training_report"><code class="docutils literal notranslate"><span class="pre">HSTrajectoryClustering.training_report()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering"><code class="docutils literal notranslate"><span class="pre">TrajectoryClustering</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.name"><code class="docutils literal notranslate"><span class="pre">TrajectoryClustering.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.isverbose"><code class="docutils literal notranslate"><span class="pre">TrajectoryClustering.isverbose</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.save_results"><code class="docutils literal notranslate"><span class="pre">TrajectoryClustering.save_results</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.config"><code class="docutils literal notranslate"><span class="pre">TrajectoryClustering.config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.model"><code class="docutils literal notranslate"><span class="pre">TrajectoryClustering.model</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.report"><code class="docutils literal notranslate"><span class="pre">TrajectoryClustering.report</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.test_report"><code class="docutils literal notranslate"><span class="pre">TrajectoryClustering.test_report</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.add_config"><code class="docutils literal notranslate"><span class="pre">TrajectoryClustering.add_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.clear"><code class="docutils literal notranslate"><span class="pre">TrajectoryClustering.clear()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.cluestering_report"><code class="docutils literal notranslate"><span class="pre">TrajectoryClustering.cluestering_report()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.create"><code class="docutils literal notranslate"><span class="pre">TrajectoryClustering.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.duration"><code class="docutils literal notranslate"><span class="pre">TrajectoryClustering.duration()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.fit"><code class="docutils literal notranslate"><span class="pre">TrajectoryClustering.fit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.grid_search"><code class="docutils literal notranslate"><span class="pre">TrajectoryClustering.grid_search()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.message"><code class="docutils literal notranslate"><span class="pre">TrajectoryClustering.message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.prepare_input"><code class="docutils literal notranslate"><span class="pre">TrajectoryClustering.prepare_input()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.save"><code class="docutils literal notranslate"><span class="pre">TrajectoryClustering.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.score"><code class="docutils literal notranslate"><span class="pre">TrajectoryClustering.score()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering.summary"><code class="docutils literal notranslate"><span class="pre">TrajectoryClustering.summary()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="matclustering.core.html#module-matclustering.core.SimilarityClustering">matclustering.core.SimilarityClustering module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="matclustering.core.html#matclustering.core.SimilarityClustering.SimilarityClustering"><code class="docutils literal notranslate"><span class="pre">SimilarityClustering</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.SimilarityClustering.SimilarityClustering.name"><code class="docutils literal notranslate"><span class="pre">SimilarityClustering.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.SimilarityClustering.SimilarityClustering.metric"><code class="docutils literal notranslate"><span class="pre">SimilarityClustering.metric</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.SimilarityClustering.SimilarityClustering.X"><code class="docutils literal notranslate"><span class="pre">SimilarityClustering.X</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.SimilarityClustering.SimilarityClustering.labels"><code class="docutils literal notranslate"><span class="pre">SimilarityClustering.labels</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.SimilarityClustering.SimilarityClustering.default_metric"><code class="docutils literal notranslate"><span class="pre">SimilarityClustering.default_metric()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.core.html#matclustering.core.SimilarityClustering.SimilarityClustering.prepare_input"><code class="docutils literal notranslate"><span class="pre">SimilarityClustering.prepare_input()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="matclustering.core.html#module-matclustering.core">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="matclustering.methods.similarity.html">Similarity-based</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="matclustering.methods.similarity.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="matclustering.methods.similarity.html#module-matclustering.methods.similarity.TSAgglomerative">matclustering.methods.similarity.TSAgglomerative module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="matclustering.methods.similarity.html#matclustering.methods.similarity.TSAgglomerative.TSAgglomerative"><code class="docutils literal notranslate"><span class="pre">TSAgglomerative</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.methods.similarity.html#matclustering.methods.similarity.TSAgglomerative.TSAgglomerative.create"><code class="docutils literal notranslate"><span class="pre">TSAgglomerative.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.methods.similarity.html#id0"><code class="docutils literal notranslate"><span class="pre">TSAgglomerative.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.methods.similarity.html#matclustering.methods.similarity.TSAgglomerative.TSAgglomerative.if_config"><code class="docutils literal notranslate"><span class="pre">TSAgglomerative.if_config()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="matclustering.methods.similarity.html#module-matclustering.methods.similarity.TSBirch">matclustering.methods.similarity.TSBirch module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="matclustering.methods.similarity.html#matclustering.methods.similarity.TSBirch.TSBirch"><code class="docutils literal notranslate"><span class="pre">TSBirch</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.methods.similarity.html#matclustering.methods.similarity.TSBirch.TSBirch.create"><code class="docutils literal notranslate"><span class="pre">TSBirch.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.methods.similarity.html#id1"><code class="docutils literal notranslate"><span class="pre">TSBirch.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.methods.similarity.html#matclustering.methods.similarity.TSBirch.TSBirch.if_config"><code class="docutils literal notranslate"><span class="pre">TSBirch.if_config()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="matclustering.methods.similarity.html#module-matclustering.methods.similarity.TSDBSCAN">matclustering.methods.similarity.TSDBSCAN module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="matclustering.methods.similarity.html#matclustering.methods.similarity.TSDBSCAN.TSDBSCAN"><code class="docutils literal notranslate"><span class="pre">TSDBSCAN</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.methods.similarity.html#matclustering.methods.similarity.TSDBSCAN.TSDBSCAN.create"><code class="docutils literal notranslate"><span class="pre">TSDBSCAN.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.methods.similarity.html#matclustering.methods.similarity.TSDBSCAN.TSDBSCAN.if_config"><code class="docutils literal notranslate"><span class="pre">TSDBSCAN.if_config()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="matclustering.methods.similarity.html#module-matclustering.methods.similarity.TSKMeans">matclustering.methods.similarity.TSKMeans module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="matclustering.methods.similarity.html#matclustering.methods.similarity.TSKMeans.TSKMeans"><code class="docutils literal notranslate"><span class="pre">TSKMeans</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.methods.similarity.html#matclustering.methods.similarity.TSKMeans.TSKMeans.create"><code class="docutils literal notranslate"><span class="pre">TSKMeans.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.methods.similarity.html#matclustering.methods.similarity.TSKMeans.TSKMeans.if_config"><code class="docutils literal notranslate"><span class="pre">TSKMeans.if_config()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="matclustering.methods.similarity.html#module-matclustering.methods.similarity.TSKMedoids">matclustering.methods.similarity.TSKMedoids module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="matclustering.methods.similarity.html#matclustering.methods.similarity.TSKMedoids.TSKMedoids"><code class="docutils literal notranslate"><span class="pre">TSKMedoids</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.methods.similarity.html#matclustering.methods.similarity.TSKMedoids.TSKMedoids.create"><code class="docutils literal notranslate"><span class="pre">TSKMedoids.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.methods.similarity.html#matclustering.methods.similarity.TSKMedoids.TSKMedoids.fit"><code class="docutils literal notranslate"><span class="pre">TSKMedoids.fit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.methods.similarity.html#matclustering.methods.similarity.TSKMedoids.TSKMedoids.if_config"><code class="docutils literal notranslate"><span class="pre">TSKMedoids.if_config()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="matclustering.methods.similarity.html#module-matclustering.methods.similarity.TSpectral">matclustering.methods.similarity.TSpectral module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="matclustering.methods.similarity.html#matclustering.methods.similarity.TSpectral.TSpectral"><code class="docutils literal notranslate"><span class="pre">TSpectral</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.methods.similarity.html#matclustering.methods.similarity.TSpectral.TSpectral.create"><code class="docutils literal notranslate"><span class="pre">TSpectral.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.methods.similarity.html#matclustering.methods.similarity.TSpectral.TSpectral.if_config"><code class="docutils literal notranslate"><span class="pre">TSpectral.if_config()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="matclustering.methods.similarity.html#module-matclustering.methods.similarity">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="matclustering.methods.coclustering.html">CoClustering (Under Development)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="matclustering.methods.coclustering.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="matclustering.methods.coclustering.html#module-matclustering.methods.coclustering.OCoClus">matclustering.methods.coclustering.OCoClus module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="matclustering.methods.coclustering.html#matclustering.methods.coclustering.OCoClus.OCoClus"><code class="docutils literal notranslate"><span class="pre">OCoClus</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.methods.coclustering.html#matclustering.methods.coclustering.OCoClus.OCoClus.create"><code class="docutils literal notranslate"><span class="pre">OCoClus.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.methods.coclustering.html#matclustering.methods.coclustering.OCoClus.OCoClus.fit"><code class="docutils literal notranslate"><span class="pre">OCoClus.fit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.methods.coclustering.html#matclustering.methods.coclustering.OCoClus.OCoClus.if_config"><code class="docutils literal notranslate"><span class="pre">OCoClus.if_config()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="matclustering.methods.coclustering.html#module-matclustering.methods.coclustering.SSOCoClus">matclustering.methods.coclustering.SSOCoClus module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="matclustering.methods.coclustering.html#matclustering.methods.coclustering.SSOCoClus.SSOCoClus"><code class="docutils literal notranslate"><span class="pre">SSOCoClus</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.methods.coclustering.html#matclustering.methods.coclustering.SSOCoClus.SSOCoClus.create"><code class="docutils literal notranslate"><span class="pre">SSOCoClus.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.methods.coclustering.html#matclustering.methods.coclustering.SSOCoClus.SSOCoClus.fit"><code class="docutils literal notranslate"><span class="pre">SSOCoClus.fit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.methods.coclustering.html#matclustering.methods.coclustering.SSOCoClus.SSOCoClus.if_config"><code class="docutils literal notranslate"><span class="pre">SSOCoClus.if_config()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="matclustering.methods.hierarchical.html">Hierarchical (Under Development)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="matclustering.methods.hierarchical.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.html">matclustering.methods.hierarchical.mattree namespace</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.algorithm.html">matclustering.methods.hierarchical.mattree.algorithm namespace</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.algorithm.html#submodules">Submodules</a></li>
+<li class="toctree-l6"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.algorithm.html#module-matclustering.methods.hierarchical.mattree.algorithm.TreeNodeObject">matclustering.methods.hierarchical.mattree.algorithm.TreeNodeObject module</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.algorithm.html#matclustering.methods.hierarchical.mattree.algorithm.TreeNodeObject.TreeNodeObject"><code class="docutils literal notranslate"><span class="pre">TreeNodeObject</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.algorithm.html#module-matclustering.methods.hierarchical.mattree.algorithm.check_label">matclustering.methods.hierarchical.mattree.algorithm.check_label module</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.algorithm.html#matclustering.methods.hierarchical.mattree.algorithm.check_label.check_label"><code class="docutils literal notranslate"><span class="pre">check_label()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.algorithm.html#module-matclustering.methods.hierarchical.mattree.algorithm.dashtree">matclustering.methods.hierarchical.mattree.algorithm.dashtree module</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.algorithm.html#matclustering.methods.hierarchical.mattree.algorithm.dashtree.dashtree"><code class="docutils literal notranslate"><span class="pre">dashtree()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.algorithm.html#module-matclustering.methods.hierarchical.mattree.algorithm.graphic_tree">matclustering.methods.hierarchical.mattree.algorithm.graphic_tree module</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.algorithm.html#matclustering.methods.hierarchical.mattree.algorithm.graphic_tree.generate_graphic_tree"><code class="docutils literal notranslate"><span class="pre">generate_graphic_tree()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.algorithm.html#matclustering.methods.hierarchical.mattree.algorithm.graphic_tree.graphic_tree"><code class="docutils literal notranslate"><span class="pre">graphic_tree()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.algorithm.html#module-matclustering.methods.hierarchical.mattree.algorithm.set_level">matclustering.methods.hierarchical.mattree.algorithm.set_level module</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.algorithm.html#matclustering.methods.hierarchical.mattree.algorithm.set_level.set_level"><code class="docutils literal notranslate"><span class="pre">set_level()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.metrics_evaluation.html">matclustering.methods.hierarchical.mattree.metrics_evaluation namespace</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.metrics_evaluation.html#submodules">Submodules</a></li>
+<li class="toctree-l6"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.metrics_evaluation.html#module-matclustering.methods.hierarchical.mattree.metrics_evaluation.eda">matclustering.methods.hierarchical.mattree.metrics_evaluation.eda module</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.metrics_evaluation.html#matclustering.methods.hierarchical.mattree.metrics_evaluation.eda.eda"><code class="docutils literal notranslate"><span class="pre">eda()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.metrics_evaluation.html#matclustering.methods.hierarchical.mattree.metrics_evaluation.eda.eda_corr"><code class="docutils literal notranslate"><span class="pre">eda_corr()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.metrics_evaluation.html#module-matclustering.methods.hierarchical.mattree.metrics_evaluation.entropy">matclustering.methods.hierarchical.mattree.metrics_evaluation.entropy module</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.metrics_evaluation.html#matclustering.methods.hierarchical.mattree.metrics_evaluation.entropy.get_entropy"><code class="docutils literal notranslate"><span class="pre">get_entropy()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.metrics_evaluation.html#module-matclustering.methods.hierarchical.mattree.metrics_evaluation.freq_matrix">matclustering.methods.hierarchical.mattree.metrics_evaluation.freq_matrix module</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.metrics_evaluation.html#matclustering.methods.hierarchical.mattree.metrics_evaluation.freq_matrix.generate_freq_matrix"><code class="docutils literal notranslate"><span class="pre">generate_freq_matrix()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.metrics_evaluation.html#module-matclustering.methods.hierarchical.mattree.metrics_evaluation.sankey">matclustering.methods.hierarchical.mattree.metrics_evaluation.sankey module</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.metrics_evaluation.html#matclustering.methods.hierarchical.mattree.metrics_evaluation.sankey.sankey"><code class="docutils literal notranslate"><span class="pre">sankey()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.metrics_evaluation.html#module-matclustering.methods.hierarchical.mattree.metrics_evaluation.similarity_matrix">matclustering.methods.hierarchical.mattree.metrics_evaluation.similarity_matrix module</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.metrics_evaluation.html#matclustering.methods.hierarchical.mattree.metrics_evaluation.similarity_matrix.get_similarity_matrix"><code class="docutils literal notranslate"><span class="pre">get_similarity_matrix()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.html#module-matclustering.methods.hierarchical.mattree.MATTree">matclustering.methods.hierarchical.mattree.MATTree module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.html#matclustering.methods.hierarchical.mattree.MATTree.MATTree"><code class="docutils literal notranslate"><span class="pre">MATTree</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.html#matclustering.methods.hierarchical.mattree.MATTree.MATTree.create"><code class="docutils literal notranslate"><span class="pre">MATTree.create()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.html#matclustering.methods.hierarchical.mattree.MATTree.MATTree.digraph"><code class="docutils literal notranslate"><span class="pre">MATTree.digraph()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.html#matclustering.methods.hierarchical.mattree.MATTree.MATTree.fit"><code class="docutils literal notranslate"><span class="pre">MATTree.fit()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.html#matclustering.methods.hierarchical.mattree.MATTree.MATTree.if_config"><code class="docutils literal notranslate"><span class="pre">MATTree.if_config()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="matclustering.methods.hierarchical.mattree.html#matclustering.methods.hierarchical.mattree.MATTree.MATTree.prepare_input"><code class="docutils literal notranslate"><span class="pre">MATTree.prepare_input()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="matclustering.methods.hierarchical.html#module-matclustering.methods.hierarchical">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Framework Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://mat-analysis.github.io/mat-tools/">MAT-Tools</a></li>
+</ul>
+</div>
+<hr class="docutils" />
+<section id="change-log">
+<h3>Change Log<a class="headerlink" href="#change-log" title="Link to this heading"></a></h3>
+<!--next-version-placeholder-->
+<section id="v0-1">
+<h4>v0.1<a class="headerlink" href="#v0-1" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p>First release</p></li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="matclustering.core.html" class="btn btn-neutral float-right" title="matclustering.core package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Tarlis Tortelli Portela and Yuri Santos.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

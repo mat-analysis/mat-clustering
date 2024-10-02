@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>matclustering.methods.hierarchical.mattree.algorithm.dashtree &mdash; mat-clustering 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../../../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../../../../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../../../index.html" class="icon icon-home">
+            mat-clustering
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Modules in MAT-clustering:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../matclustering.core.html">Core Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../matclustering.methods.similarity.html">Similarity-based</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../matclustering.methods.coclustering.html">CoClustering (Under Development)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../matclustering.methods.hierarchical.html">Hierarchical (Under Development)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Framework Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://mat-analysis.github.io/mat-tools/">MAT-Tools</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../index.html">mat-clustering</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">matclustering.methods.hierarchical.mattree.algorithm.dashtree</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for matclustering.methods.hierarchical.mattree.algorithm.dashtree</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">MAT-Tools: Python Framework for Multiple Aspect Trajectory Data Mining</span>
+
+<span class="sd">The present application offers a tool, to support the user in the clustering of multiple aspect trajectory data.It integrates into a unique framework for multiple aspects trajectories and in general for multidimensional sequence data mining methods.</span>
+<span class="sd">Copyright (C) 2022, MIT license (this portion of code is subject to licensing from source project distribution)</span>
+
+<span class="sd">Created on Apr, 2024</span>
+<span class="sd">Copyright (C) 2024, License GPL Version 3 or superior (see LICENSE file)</span>
+
+<span class="sd">Authors:</span>
+<span class="sd">    - Tarlis Portela</span>
+<span class="sd">    - Yuri Santos</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">tqdm.auto</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="kn">from</span> <span class="nn">matclustering.methods.hierarchical.mattree.algorithm.TreeNodeObject</span> <span class="kn">import</span> <span class="n">TreeNodeObject</span>
+<span class="kn">from</span> <span class="nn">matclustering.methods.hierarchical.mattree.algorithm.check_label</span> <span class="kn">import</span> <span class="n">check_label</span>
+<span class="kn">from</span> <span class="nn">matclustering.methods.hierarchical.mattree.metrics_evaluation.entropy</span> <span class="kn">import</span> <span class="n">get_entropy</span>
+<span class="kn">from</span> <span class="nn">matclustering.methods.hierarchical.mattree.metrics_evaluation.freq_matrix</span> <span class="kn">import</span> <span class="n">generate_freq_matrix</span>
+<span class="kn">from</span> <span class="nn">matclustering.methods.hierarchical.mattree.metrics_evaluation.similarity_matrix</span> <span class="kn">import</span> <span class="n">get_similarity_matrix</span>
+
+
+<div class="viewcode-block" id="dashtree">
+<a class="viewcode-back" href="../../../../../../matclustering.methods.hierarchical.mattree.algorithm.html#matclustering.methods.hierarchical.mattree.algorithm.dashtree.dashtree">[docs]</a>
+<span class="k">def</span> <span class="nf">dashtree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">exclude_aspects</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">      Method that calculates the frequency matrix and the clusters generated</span>
+<span class="sd">      from the division of data based on a split criteria defined in the</span>
+<span class="sd">      Tree constructor.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># columns = self.data.drop([&#39;time&#39;, &#39;poi&#39;, &#39;type&#39;, &#39;rating&#39;, &#39;label&#39;], axis=1)</span>
+    <span class="c1"># dummies = pd.get_dummies(columns, prefix_sep=&#39;~&#39;)</span>
+    <span class="c1"># vals = dummies.drop([&#39;tid&#39;], axis=1)</span>
+    <span class="c1"># self.freqMatrix = pd.pivot_table(dummies, index=[&#39;tid&#39;], values=vals.columns, aggfunc=np.sum)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Computing frequency matrix...&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">generate_freq_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">exclude_aspects</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;DONE!&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Computing absolute freq matrix...&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">relative</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">absolute_frequency_matrix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">absolute_frequency_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">freqMatrix</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="p">[</span><span class="n">res</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">freqMatrix</span><span class="o">.</span><span class="n">mean</span><span class="p">()]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">absolute_frequency_matrix</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="n">dt</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">freqMatrix</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;DONE&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Condição de parada</span>
+    <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trajList</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxTrajPerGroup</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">trajList</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxTrajPerGroup</span><span class="p">)</span> <span class="ow">or</span>
+            <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxDepth</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth</span><span class="p">)):</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Stop criteria matched.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parentName</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">tid</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">done</span> <span class="o">=</span> <span class="s1">&#39;Yes&#39;</span>
+        <span class="n">check_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df_dict</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">freqMatrix</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodeLabel</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">depth</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+<span class="c1">#        print(f&quot;self.done: {self.done}; self.parentName: {self.parentName}; nodeLabel: [self.depth={self.depth}.append(self.id={self.id})]&quot;)#degub</span>
+
+        <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df_dict</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)]</span><span class="o">.</span><span class="n">index</span>
+        <span class="n">df_filter</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">tid</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">idx</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df_leaves</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)]</span> <span class="o">=</span> <span class="n">df_filter</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">temporario</span> <span class="o">+=</span> <span class="n">get_entropy</span><span class="p">(</span><span class="n">df_filter</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_filter</span><span class="o">.</span><span class="n">tid</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clusters</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">dendrogram_dict</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">nodeNum</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodeNum</span><span class="p">)</span>
+
+    <span class="n">minVar</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Computing aspects threshold...&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">relative</span><span class="p">:</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="p">[</span><span class="n">res</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">freqMatrix</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="n">dt</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">freqMatrix</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="p">[</span><span class="n">res</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">freqMatrix</span><span class="o">.</span><span class="n">mean</span><span class="p">()]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="n">dt</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">freqMatrix</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;DONE!&quot;</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">variance</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">left_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">right_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">feature_list</span><span class="p">,</span> <span class="n">initial_var</span><span class="p">,</span> <span class="n">var_red</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="n">reducao</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">split_value</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">muitas_result</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">msm_result</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Starting trajectory split on branches (split method: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">split</span><span class="si">}</span><span class="s2">). It will do:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Check trajs for left and right branches regarding the AVG.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Compute variance for each aspect and branch.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Running...&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    
+<span class="c1">#    for col in self.freqMatrix.columns:</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">freqMatrix</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;Processing &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">skipVal</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="n">left</span><span class="p">,</span> <span class="n">left_idx</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">right_idx</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">reg</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">freqMatrix</span><span class="p">[</span><span class="n">col</span><span class="p">]):</span>
+            <span class="k">if</span> <span class="n">reg</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">][</span><span class="n">col</span><span class="p">]:</span>
+                <span class="n">left</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reg</span><span class="p">)</span>
+                <span class="n">left_idx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">right</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reg</span><span class="p">)</span>
+                <span class="n">right_idx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">left_group</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">left</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">right_group</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">right</span>
+
+        <span class="n">left_dict</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">left_idx</span>
+        <span class="n">right_dict</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">right_idx</span>
+
+        <span class="c1"># print(&quot;Delay on var() part 1:&quot;, end=&quot;&quot;)#debug</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variance</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;initial&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">freqMatrix</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">var</span><span class="p">(),</span>
+            <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">left</span><span class="p">),</span>
+            <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">right</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="c1"># print(f&quot;DONE!&quot;)#debug</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">split</span> <span class="o">==</span> <span class="s1">&#39;var_red&#39;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Delay on var() part 2:&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+            <span class="n">save_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">freqMatrix</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">save_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">esquerda</span> <span class="o">=</span> <span class="n">save_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">save_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">left_dict</span><span class="p">[</span><span class="n">col</span><span class="p">])]</span>
+            <span class="n">direita</span> <span class="o">=</span> <span class="n">save_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">save_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">right_dict</span><span class="p">[</span><span class="n">col</span><span class="p">])]</span>
+
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">freqMatrix</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="n">initial_variance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">freqMatrix</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
+                <span class="n">variance_reduction</span> <span class="o">=</span> <span class="n">initial_variance</span> <span class="o">-</span> <span class="nb">abs</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">esquerda</span><span class="p">[</span><span class="n">c</span><span class="p">])</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">direita</span><span class="p">[</span><span class="n">c</span><span class="p">]))</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="n">reducao</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">variance_reduction</span>
+            <span class="n">split_value</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">reducao</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">freqMatrix</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DONE!&quot;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">split</span> <span class="o">==</span> <span class="s1">&#39;muitas&#39;</span><span class="p">:</span>
+
+            <span class="n">traj_left</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">freqMatrix</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">left_dict</span><span class="p">[</span><span class="n">col</span><span class="p">]]</span>
+            <span class="n">esquerda</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;tid&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">traj_left</span><span class="p">)]</span>
+            <span class="n">traj_right</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">freqMatrix</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">right_dict</span><span class="p">[</span><span class="n">col</span><span class="p">]]</span>
+            <span class="n">direita</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;tid&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">traj_right</span><span class="p">)]</span>
+
+            <span class="n">similarity_mean_node_muitas_esquerda</span> <span class="o">=</span> <span class="n">get_similarity_matrix</span><span class="p">(</span><span class="n">esquerda</span><span class="p">,</span> <span class="s1">&#39;MUITAS&#39;</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">similarity_mean_node_muitas_esquerda</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">similarity_mean_node_muitas_esquerda</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span>
+                    <span class="n">similarity_mean_node_muitas_esquerda</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+                <span class="n">similarity_mean_node_muitas_esquerda</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">similarity_mean_node_muitas_esquerda</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="mi">1</span>
+
+            <span class="n">similarity_mean_node_muitas_direita</span> <span class="o">=</span> <span class="n">get_similarity_matrix</span><span class="p">(</span><span class="n">direita</span><span class="p">,</span> <span class="s1">&#39;MUITAS&#39;</span><span class="p">)</span>
+            <span class="n">similarity_mean_node_muitas_direita</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">similarity_mean_node_muitas_direita</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span>
+                <span class="n">similarity_mean_node_muitas_direita</span><span class="p">)</span>
+
+            <span class="n">muitas_media</span> <span class="o">=</span> <span class="p">(</span><span class="n">similarity_mean_node_muitas_esquerda</span> <span class="o">+</span> <span class="n">similarity_mean_node_muitas_direita</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+            <span class="n">muitas_result</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">muitas_media</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">split</span> <span class="o">==</span> <span class="s1">&#39;msm&#39;</span><span class="p">:</span>
+
+            <span class="n">traj_left</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">freqMatrix</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">left_dict</span><span class="p">[</span><span class="n">col</span><span class="p">]]</span>
+            <span class="n">esquerda</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;tid&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">traj_left</span><span class="p">)]</span>
+            <span class="n">traj_right</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">freqMatrix</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">right_dict</span><span class="p">[</span><span class="n">col</span><span class="p">]]</span>
+            <span class="n">direita</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;tid&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">traj_right</span><span class="p">)]</span>
+
+            <span class="n">similarity_mean_node_msm_esquerda</span> <span class="o">=</span> <span class="n">get_similarity_matrix</span><span class="p">(</span><span class="n">esquerda</span><span class="p">,</span> <span class="s1">&#39;MSM&#39;</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">similarity_mean_node_msm_esquerda</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">similarity_mean_node_msm_esquerda</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span>
+                    <span class="n">similarity_mean_node_msm_esquerda</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+                <span class="n">similarity_mean_node_msm_esquerda</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">similarity_mean_node_msm_esquerda</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="mi">1</span>
+            <span class="n">similarity_mean_node_msm_direita</span> <span class="o">=</span> <span class="n">get_similarity_matrix</span><span class="p">(</span><span class="n">direita</span><span class="p">,</span> <span class="s1">&#39;MSM&#39;</span><span class="p">)</span>
+            <span class="n">similarity_mean_node_msm_direita</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">similarity_mean_node_msm_direita</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span>
+                <span class="n">similarity_mean_node_msm_direita</span><span class="p">)</span>
+
+            <span class="n">msm_media</span> <span class="o">=</span> <span class="p">(</span><span class="n">similarity_mean_node_msm_esquerda</span> <span class="o">+</span> <span class="n">similarity_mean_node_msm_direita</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+            <span class="n">msm_result</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">msm_media</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">split</span> <span class="o">==</span> <span class="s2">&quot;binary&quot;</span><span class="p">:</span>
+
+            <span class="n">differenceBetweenGroups</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">right</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">minVar</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">or</span> <span class="n">differenceBetweenGroups</span> <span class="o">&lt;</span> <span class="n">minVar</span><span class="p">:</span>
+                <span class="n">minVar</span> <span class="o">=</span> <span class="n">differenceBetweenGroups</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">division</span> <span class="o">=</span> <span class="n">col</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">split</span> <span class="o">==</span> <span class="s2">&quot;minVariance&quot;</span><span class="p">:</span>
+
+            <span class="n">calcMinVar</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">variance</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="s2">&quot;left&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">variance</span><span class="p">[</span><span class="n">col</span><span class="p">][</span>
+                <span class="s2">&quot;right&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>  <span class="c1"># average variance between groups</span>
+            <span class="k">if</span> <span class="n">minVar</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">or</span> <span class="n">calcMinVar</span> <span class="o">&lt;</span> <span class="n">minVar</span><span class="p">:</span>
+                <span class="n">minVar</span> <span class="o">=</span> <span class="n">calcMinVar</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">division</span> <span class="o">=</span> <span class="n">col</span>
+
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># self.split == &#39;max_red&#39;</span>
+            <span class="n">calcMinVar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">variance</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="s1">&#39;initial&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">variance</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="s2">&quot;left&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">variance</span><span class="p">[</span><span class="n">col</span><span class="p">][</span>
+                <span class="s2">&quot;right&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>  <span class="c1"># average variance between groups</span>
+
+            <span class="k">if</span> <span class="n">calcMinVar</span> <span class="o">&gt;</span> <span class="n">minVar</span><span class="p">:</span>
+                <span class="n">minVar</span> <span class="o">=</span> <span class="n">calcMinVar</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">division</span> <span class="o">=</span> <span class="n">col</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ALL DONE!&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">split</span> <span class="o">==</span> <span class="s1">&#39;muitas&#39;</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">division</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">muitas_result</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">muitas_result</span><span class="o">.</span><span class="n">get</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">split</span> <span class="o">==</span> <span class="s1">&#39;msm&#39;</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">division</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">msm_result</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">msm_result</span><span class="o">.</span><span class="n">get</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">split</span> <span class="o">==</span> <span class="s1">&#39;var_red&#39;</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">division</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">split_value</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">split_value</span><span class="o">.</span><span class="n">get</span><span class="p">)</span>
+
+<span class="c1">#    print(f&quot;self.division: {self.division}&quot;)#debug</span>
+    <span class="n">asp</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">division</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;~&#39;</span><span class="p">)</span>
+<span class="c1">#    print(f&quot;asp: {asp}; val: {val}&quot;)#degub</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">thresholdVal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">division</span><span class="p">]</span>
+    <span class="n">check_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">asp</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">division</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">skipVal</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">skipVal</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">division</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">depth</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">left_group</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">division</span><span class="p">]),</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right_group</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">division</span><span class="p">])])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">nodeLabel</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">depth</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+<span class="c1">#    print(f&quot;nodeLabel: [self.depth={self.depth}].append(self.id={self.id})&quot;)#degub</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">df_dict</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">freqMatrix</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">parentName</span> <span class="o">=</span> <span class="n">asp</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">[&quot;</span> <span class="o">+</span> <span class="n">val</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span>
+<span class="c1">#    print(f&quot;parentName: {self.parentName}&quot;)#degub</span>
+
+<span class="c1">#    print(&quot;\nChamar func para nó da ESQUERDA&quot;)#degub</span>
+    <span class="n">traj_left</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">freqMatrix</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">left_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">division</span><span class="p">]]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">TreeNodeObject</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;tid&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">traj_left</span><span class="p">)],</span> <span class="bp">self</span><span class="p">)</span>
+    <span class="n">dashtree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
+    <span class="c1"># self.left.dashTree()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">leftChildName</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">parentName</span>
+<span class="c1">#    print(f&quot;leftChildName: {self.leftChildName}; left.id: {self.left.id}&quot;)#degub</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">dendrogram_dict</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+
+<span class="c1">#    print(&quot;\nChamar func para nó da DIREITA&quot;)#degub</span>
+    <span class="n">traj_right</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">freqMatrix</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">right_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">division</span><span class="p">]]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">TreeNodeObject</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;tid&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">traj_right</span><span class="p">)],</span> <span class="bp">self</span><span class="p">)</span>
+    <span class="n">dashtree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
+    <span class="c1"># self.left.dashTree()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">rightChildName</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">parentName</span>
+<span class="c1">#    print(f&quot;rightChildName: {self.rightChildName}; right.id: {self.right.id}&quot;)#degub</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">dendrogram_dict</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">id</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Tarlis Tortelli Portela and Yuri Santos.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

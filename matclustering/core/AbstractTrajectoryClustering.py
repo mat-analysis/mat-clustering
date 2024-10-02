@@ -1,3 +1,16 @@
+# -*- coding: utf-8 -*-
+"""
+MAT-Tools: Python Framework for Multiple Aspect Trajectory Data Mining
+
+The present application offers a tool, to support the user in the clustering of multiple aspect trajectory data.It integrates into a unique framework for multiple aspects trajectories and in general for multidimensional sequence data mining methods.
+Copyright (C) 2022, MIT license (this portion of code is subject to licensing from source project distribution)
+
+Created on Apr, 2024
+Copyright (C) 2024, License GPL Version 3 or superior (see LICENSE file)
+
+Authors:
+    - Tarlis Portela
+"""
 import os
 import pandas as pd
 from datetime import datetime
@@ -10,6 +23,69 @@ from abc import ABC, abstractmethod
 from sklearn.metrics import *
 
 class TrajectoryClustering(ABC):
+    """
+    Abstract base class for trajectory clustering algorithms.
+
+    This class provides a framework for clustering multiple-aspect trajectory data. 
+    It allows the configuration of clustering parameters, performs hyperparameter 
+    combinations for grid search optimization (see HSTrajectoryClustering class), 
+    and evaluates clustering results using various metrics.
+
+    Attributes
+    ----------
+    name : str
+        Name of the clustering model.
+    isverbose : bool
+        Flag indicating whether to print verbose output.
+    save_results : bool
+        Flag to indicate if results should be saved.
+    config : dict
+        Configuration dictionary to hold hyperparameters and settings.
+    model : object
+        The clustering model instance.
+    report : DataFrame
+        Report of clustering evaluation metrics.
+    test_report : DataFrame
+        Report of clustering evaluation metrics on test data.
+    
+    Methods
+    -------
+    add_config(**kwargs):
+        Updates the configuration dictionary with new parameters.
+    
+    grid_search(*args):
+        Generates combinations of hyperparameters for grid search.
+    
+    duration():
+        Returns the elapsed time since the model was initialized in milliseconds.
+    
+    clear():
+        Clears the current model instance.
+    
+    message(pbar, text):
+        Displays a message during model training/testing.
+    
+    prepare_input(X, metric=None, dataset_descriptor=None):
+        Prepares the input data for clustering (to be implemented by subclasses).
+    
+    create(config=None):
+        Creates and returns the clustering model instance (to be implemented by subclasses).
+    
+    score(y_test, y_pred, X=None):
+        Calculates and returns various clustering evaluation metrics as a DataFrame.
+    
+    summary():
+        Returns a summary of the clustering results.
+    
+    fit(X, config=None):
+        Fits the clustering model to the input data and returns the report and cluster labels.
+    
+    save(dir_path='.', modelfolder='model'):
+        Saves the clustering model and its results to the specified directory.
+    
+    cluestering_report():
+        Generates a DataFrame of cluster predictions and labels.
+    """
     def __init__(self,
                  name='NAME?',
                  
@@ -142,6 +218,41 @@ class TrajectoryClustering(ABC):
         return df
 
 class HSTrajectoryClustering(TrajectoryClustering): # Hyperparam search model
+    """
+    Class for hyperparameter search in multiple-aspect trajectory clustering algorithms.
+
+    This class extends the TrajectoryClustering class to include hyperparameter 
+    optimization (tuning through grid search) and model validation. It implements methods for training, testing, 
+    and saving models, along with detailed reporting of the results.
+
+    Attributes
+    ----------
+    best_config : list
+        The best hyperparameter configuration found during training.
+
+    Methods
+    -------
+    prepare_input(X):
+        Prepares the input data for training (to be implemented by subclasses).
+    
+    if_config(config=None):
+        Returns the current configuration or default configuration.
+    
+    train(dir_validation='.'):
+        Trains the model using grid search over hyperparameters and returns the training report.
+    
+    test(rounds=1, dir_evaluation='.'):
+        Tests the best model on the dataset and returns evaluation metrics.
+    
+    save(dir_path='.', modelfolder='model'):
+        Saves the model and its training/testing results to the specified directory.
+    
+    training_report():
+        Returns the training report DataFrame.
+    
+    testing_report():
+        Returns the testing report DataFrame.
+    """
     def __init__(self,
                  name='NAME?',
                  

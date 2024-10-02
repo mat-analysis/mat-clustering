@@ -41,4 +41,8 @@ python3 -m pip install -U sphinx
 cd docs
 sphinx-quickstart
 
+# Check configurations ...
+
+sphinx-apidoc -f -o source ../matclustering --implicit-namespaces -d=10
+
 make html

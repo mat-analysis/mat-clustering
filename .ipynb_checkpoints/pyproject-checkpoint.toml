@@ -1,6 +1,6 @@
 [project]
 name = "mat-clustering"
-version = "0.1b0"
+version = "0.1rc1"
 description = "Clustering Methods for Multiple Aspect Trajectory Data Mining"
 authors = [
     {name = "Yuri Santos", email = "yuri.nassar@gmail.com"},
@@ -67,7 +67,7 @@ dl = [
 [project.urls]
 "Homepage" = "https://github.com/mat-analysis/mat-clustering"
 "Repository" = "https://github.com/mat-analysis/mat-clustering"
-"Documentation" = "https://github.com/mat-analysis/mat-clustering/blob/main/README.md"
+"Documentation" = "https://mat-analysis.github.io/mat-tools/mat-clustering/index.html"
 "Download" = "https://pypi.org/project/mat-clustering/#files"
 "Bug Tracker" = "https://github.com/mat-analysis/mat-clustering/issues"
 

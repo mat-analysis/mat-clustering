@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>matclustering.methods.coclustering namespace &mdash; mat-clustering 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=2709fde1"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="matclustering.methods.hierarchical package" href="matclustering.methods.hierarchical.html" />
+    <link rel="prev" title="matclustering.methods.similarity package" href="matclustering.methods.similarity.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            mat-clustering
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Modules in MAT-clustering:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="matclustering.core.html">Core Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matclustering.methods.similarity.html">Similarity-based</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">CoClustering (Under Development)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-matclustering.methods.coclustering.OCoClus">matclustering.methods.coclustering.OCoClus module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#matclustering.methods.coclustering.OCoClus.OCoClus"><code class="docutils literal notranslate"><span class="pre">OCoClus</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#matclustering.methods.coclustering.OCoClus.OCoClus.create"><code class="docutils literal notranslate"><span class="pre">OCoClus.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#matclustering.methods.coclustering.OCoClus.OCoClus.fit"><code class="docutils literal notranslate"><span class="pre">OCoClus.fit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#matclustering.methods.coclustering.OCoClus.OCoClus.if_config"><code class="docutils literal notranslate"><span class="pre">OCoClus.if_config()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-matclustering.methods.coclustering.SSOCoClus">matclustering.methods.coclustering.SSOCoClus module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#matclustering.methods.coclustering.SSOCoClus.SSOCoClus"><code class="docutils literal notranslate"><span class="pre">SSOCoClus</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#matclustering.methods.coclustering.SSOCoClus.SSOCoClus.create"><code class="docutils literal notranslate"><span class="pre">SSOCoClus.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#matclustering.methods.coclustering.SSOCoClus.SSOCoClus.fit"><code class="docutils literal notranslate"><span class="pre">SSOCoClus.fit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#matclustering.methods.coclustering.SSOCoClus.SSOCoClus.if_config"><code class="docutils literal notranslate"><span class="pre">SSOCoClus.if_config()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="matclustering.methods.hierarchical.html">Hierarchical (Under Development)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Framework Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://mat-analysis.github.io/mat-tools/">MAT-Tools</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">mat-clustering</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">matclustering.methods.coclustering namespace</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/matclustering.methods.coclustering.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-matclustering.methods.coclustering">
+<span id="matclustering-methods-coclustering-namespace"></span><h1>matclustering.methods.coclustering namespace<a class="headerlink" href="#module-matclustering.methods.coclustering" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-matclustering.methods.coclustering.OCoClus">
+<span id="matclustering-methods-coclustering-ococlus-module"></span><h2>matclustering.methods.coclustering.OCoClus module<a class="headerlink" href="#module-matclustering.methods.coclustering.OCoClus" title="Link to this heading"></a></h2>
+<p>MAT-Tools: Python Framework for Multiple Aspect Trajectory Data Mining</p>
+<p>The present application offers a tool, to support the user in the clustering of multiple aspect trajectory data.It integrates into a unique framework for multiple aspects trajectories and in general for multidimensional sequence data mining methods.
+Copyright (C) 2022, MIT license (this portion of code is subject to licensing from source project distribution)</p>
+<p>Created on Apr, 2024
+Copyright (C) 2024, License GPL Version 3 or superior (see LICENSE file)</p>
+<dl class="simple">
+<dt>Authors:</dt><dd><ul class="simple">
+<li><p>Tarlis Portela</p></li>
+<li><p>Yuri Santos</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="matclustering.methods.coclustering.OCoClus.OCoClus">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">matclustering.methods.coclustering.OCoClus.</span></span><span class="sig-name descname"><span class="pre">OCoClus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/matclustering/methods/coclustering/OCoClus.html#OCoClus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#matclustering.methods.coclustering.OCoClus.OCoClus" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering" title="matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrajectoryClustering</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="matclustering.methods.coclustering.OCoClus.OCoClus.create">
+<span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/matclustering/methods/coclustering/OCoClus.html#OCoClus.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#matclustering.methods.coclustering.OCoClus.OCoClus.create" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="matclustering.methods.coclustering.OCoClus.OCoClus.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/matclustering/methods/coclustering/OCoClus.html#OCoClus.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#matclustering.methods.coclustering.OCoClus.OCoClus.fit" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="matclustering.methods.coclustering.OCoClus.OCoClus.if_config">
+<span class="sig-name descname"><span class="pre">if_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/matclustering/methods/coclustering/OCoClus.html#OCoClus.if_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#matclustering.methods.coclustering.OCoClus.OCoClus.if_config" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-matclustering.methods.coclustering.SSOCoClus">
+<span id="matclustering-methods-coclustering-ssococlus-module"></span><h2>matclustering.methods.coclustering.SSOCoClus module<a class="headerlink" href="#module-matclustering.methods.coclustering.SSOCoClus" title="Link to this heading"></a></h2>
+<p>MAT-Tools: Python Framework for Multiple Aspect Trajectory Data Mining</p>
+<p>The present application offers a tool, to support the user in the clustering of multiple aspect trajectory data.It integrates into a unique framework for multiple aspects trajectories and in general for multidimensional sequence data mining methods.
+Copyright (C) 2022, MIT license (this portion of code is subject to licensing from source project distribution)</p>
+<p>Created on Apr, 2024
+Copyright (C) 2024, License GPL Version 3 or superior (see LICENSE file)</p>
+<dl class="simple">
+<dt>Authors:</dt><dd><ul class="simple">
+<li><p>Tarlis Portela</p></li>
+<li><p>Yuri Santos</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="matclustering.methods.coclustering.SSOCoClus.SSOCoClus">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">matclustering.methods.coclustering.SSOCoClus.</span></span><span class="sig-name descname"><span class="pre">SSOCoClus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/matclustering/methods/coclustering/SSOCoClus.html#SSOCoClus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#matclustering.methods.coclustering.SSOCoClus.SSOCoClus" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="matclustering.core.html#matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering" title="matclustering.core.AbstractTrajectoryClustering.TrajectoryClustering"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrajectoryClustering</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="matclustering.methods.coclustering.SSOCoClus.SSOCoClus.create">
+<span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/matclustering/methods/coclustering/SSOCoClus.html#SSOCoClus.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#matclustering.methods.coclustering.SSOCoClus.SSOCoClus.create" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="matclustering.methods.coclustering.SSOCoClus.SSOCoClus.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/matclustering/methods/coclustering/SSOCoClus.html#SSOCoClus.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#matclustering.methods.coclustering.SSOCoClus.SSOCoClus.fit" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="matclustering.methods.coclustering.SSOCoClus.SSOCoClus.if_config">
+<span class="sig-name descname"><span class="pre">if_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/matclustering/methods/coclustering/SSOCoClus.html#SSOCoClus.if_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#matclustering.methods.coclustering.SSOCoClus.SSOCoClus.if_config" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="matclustering.methods.similarity.html" class="btn btn-neutral float-left" title="matclustering.methods.similarity package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="matclustering.methods.hierarchical.html" class="btn btn-neutral float-right" title="matclustering.methods.hierarchical package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Tarlis Tortelli Portela and Yuri Santos.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
